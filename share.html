@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="张凯">
+  <title>Haskell 简介</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+<!--
+-->
+  <link rel="stylesheet" href="/home/bibaijin/share/template/pandoc/pure/pure.css">
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-41480445-1', 'purecss.io');
+    ga('send', 'pageview');
+  </script>
+
+</head>
+<body>
+    <div id="layout">
+        <!-- Menu toggle -->
+        <a href="#menu" id="menuLink" class="menu-link">
+            <!-- Hamburger icon -->
+            <span></span>
+        </a>
+                <div id="menu">
+            <div class="pure-menu pure-menu-open">
+                <a class="pure-menu-heading" href="#">目录</a>
+                <ul>
+                <li><a href="#介绍">介绍</a><ul>
+                <li><a href="#开胃菜">开胃菜</a></li>
+                <li><a href="#haskell-的优点">Haskell 的优点</a></li>
+                <li><a href="#haskell-的缺点">Haskell 的缺点</a></li>
+                </ul></li>
+                <li><a href="#细节">细节</a><ul>
+                <li><a href="#基本语法">基本语法</a></li>
+                <li><a href="#基本语法-2">基本语法 2</a></li>
+                <li><a href="#type">type</a></li>
+                <li><a href="#function">Function</a></li>
+                <li><a href="#function-2">Function 2</a></li>
+                <li><a href="#递归">递归</a></li>
+                <li><a href="#map-and-filter">Map and filter</a></li>
+                <li><a href="#fold-and-.">Fold, ($) and (.)</a></li>
+                <li><a href="#modules">Modules</a></li>
+                <li><a href="#define-our-type">Define our type</a></li>
+                <li><a href="#闭包">闭包</a></li>
+                <li><a href="#monad">Monad</a></li>
+                </ul></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="main">
+                                    <div class="header">
+                <h1 class="title">Haskell 简介</h1>
+                                                <h2 class="author">张凯</h2>
+                                                <h3 class="date">2015 年 8 月 5 日</h3>
+                            </div>
+                        <div class="content">
+                <h1 id="介绍">介绍</h1>
+                <h2 id="开胃菜">开胃菜</h2>
+                <ul>
+                <li>pandoc -- 文件格式转换的利器
+                <ul>
+                <li>读入: Markdown，reStructuredText, LaTeX, DocBook，EPUB，Word docx 等等格 式</li>
+                <li>输出: DZSlides, reveal.js, beamer; HTML5, pdf, Word docx, LaTeX</li>
+                </ul></li>
+                <li>xmonad -- 平铺式窗口管理器
+                <ul>
+                <li>资源占用少</li>
+                <li>基本功能一应俱全</li>
+                <li>配置文件即 Haskell 程序，定制灵活</li>
+                </ul></li>
+                </ul>
+                <h2 id="haskell-的优点">Haskell 的优点</h2>
+                <ul>
+                <li><p>没有副作用 -&gt; 易于查错，测试</p></li>
+                <li><p>变量不可变 -&gt; 易于执行并发操作</p></li>
+                <li><p>惰性求值 -&gt; 提高效率，表达无穷列表</p></li>
+                <li><p>静态类型 + 强大的类型推导系统 -&gt; 节省代码量</p></li>
+                <li><p>尾递归优化 -&gt; 代码更简洁</p></li>
+                </ul>
+                <h2 id="haskell-的缺点">Haskell 的缺点</h2>
+                <ul>
+                <li><p>非主流 -&gt; 目前主要在学术界流行，工业界用的较少</p></li>
+                <li><p>执行效率不如 C、C++ 高</p></li>
+                <li><p>学习曲线陡峭</p></li>
+                </ul>
+                <h1 id="细节">细节</h1>
+                <h2 id="基本语法">基本语法</h2>
+                <ul>
+                <li><code>doubleUs x y = x*2 + y*2</code>
+                <ul>
+                <li>doubleUs 4 9 -&gt; 26</li>
+                </ul></li>
+                <li>list
+                <ul>
+                <li>:, ++, !!;</li>
+                <li>head, tail; last, init;</li>
+                <li>take, drop;</li>
+                <li>maximum, minimum; sum, product</li>
+                <li>elem, .., repeat</li>
+                <li><code>[x*2 | x &lt;- [1..10], x*2 &gt;= 12]</code></li>
+                </ul></li>
+                </ul>
+                <h2 id="基本语法-2">基本语法 2</h2>
+                <ul>
+                <li>tuple
+                <ul>
+                <li>fst (8, 11)</li>
+                <li>snd</li>
+                <li>zip</li>
+                </ul></li>
+                </ul>
+                <h2 id="type">type</h2>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">addThree ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+                addThree x y z <span class="fu">=</span> x <span class="fu">+</span> y <span class="fu">+</span> z</code></pre></div>
+                <ul>
+                <li>curry
+                <ul>
+                <li>Int -&gt; (Int -&gt; (Int -&gt; Int))</li>
+                <li>((addThree x) y) z</li>
+                </ul></li>
+                </ul>
+                <h2 id="function">Function</h2>
+                <ul>
+                <li>Pattern matching</li>
+                </ul>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">lucky ::</span> (<span class="dt">Integral</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">String</span>
+                lucky <span class="dv">7</span> <span class="fu">=</span> <span class="st">&quot;LUCKY NUMBER SEVEN!&quot;</span>
+                lucky x <span class="fu">=</span> <span class="st">&quot;Sorry, you&#39;re out of luck, pal!&quot;</span></code></pre></div>
+                <ul>
+                <li>Guards</li>
+                </ul>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">bmiTell ::</span> (<span class="dt">RealFloat</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">String</span>
+                bmiTell bmi
+                    <span class="fu">|</span> bmi <span class="fu">&lt;=</span> <span class="fl">18.5</span> <span class="fu">=</span> <span class="st">&quot;You&#39;re underweight, you emo, you!&quot;</span>
+                    <span class="fu">|</span> bmi <span class="fu">&lt;=</span> <span class="fl">25.0</span> <span class="fu">=</span> <span class="st">&quot;You&#39;re supposedly normal. Pffft, I bet you&#39;re ugly!&quot;</span>
+                    <span class="fu">|</span> bmi <span class="fu">&lt;=</span> <span class="fl">30.0</span> <span class="fu">=</span> <span class="st">&quot;You&#39;re fat! Lose some weight, fatty!&quot;</span>
+                    <span class="fu">|</span> otherwise   <span class="fu">=</span> <span class="st">&quot;You&#39;re a whale, congratulations!&quot;</span></code></pre></div>
+                <h2 id="function-2">Function 2</h2>
+                <ul>
+                <li>case</li>
+                </ul>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">describeList ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">String</span>
+                describeList xs <span class="fu">=</span>
+                    <span class="st">&quot;The list is &quot;</span> <span class="fu">++</span> <span class="kw">case</span> xs <span class="kw">of</span> [] <span class="ot">-&gt;</span> <span class="st">&quot;empty.&quot;</span>
+                                                 [x] <span class="ot">-&gt;</span> <span class="st">&quot;a singleton.&quot;</span>
+                                                 xs <span class="ot">-&gt;</span> <span class="st">&quot;a longer list.&quot;</span></code></pre></div>
+                <h2 id="递归">递归</h2>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">quicksort ::</span> (<span class="dt">Ord</span> a) <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> [a]
+                quicksort [] <span class="fu">=</span> []
+                quicksort (x<span class="fu">:</span>xs) <span class="fu">=</span>
+                    <span class="kw">let</span> smallerSorted <span class="fu">=</span> quicksort [a <span class="fu">|</span> a <span class="ot">&lt;-</span> xs, a <span class="fu">&lt;=</span> x]
+                        biggerSorted <span class="fu">=</span> quicksort [a <span class="fu">|</span> a <span class="ot">&lt;-</span> xs, a <span class="fu">&gt;</span> x]
+                    <span class="kw">in</span>  smallerSorted <span class="fu">++</span> [x] <span class="fu">++</span> biggerSorted</code></pre></div>
+                <h2 id="map-and-filter">Map and filter</h2>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]
+                map _ [] <span class="fu">=</span> []
+                map f (x<span class="fu">:</span>xs) <span class="fu">=</span> f x <span class="fu">:</span> map f xs
+                filter<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]
+                filter _ [] <span class="fu">=</span> []
+                filter p (x<span class="fu">:</span>xs)
+                    <span class="fu">|</span> p x       <span class="fu">=</span> x <span class="fu">:</span> filter p xs
+                    <span class="fu">|</span> otherwise <span class="fu">=</span> filter p xs</code></pre></div>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">ghci<span class="fu">&gt;</span> map (<span class="fu">+</span><span class="dv">3</span>) [<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">6</span>]
+                [<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">9</span>]
+                ghci<span class="fu">&gt;</span> filter (<span class="fu">&gt;</span><span class="dv">3</span>) [<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>]
+                [<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>]</code></pre></div>
+                <h2 id="fold-and-.">Fold, ($) and (.)</h2>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">sum&#39; ::</span> (<span class="dt">Num</span> a) <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> a
+                sum&#39; xs <span class="fu">=</span> foldl (\acc x <span class="ot">-&gt;</span> acc <span class="fu">+</span> x) <span class="dv">0</span> xs
+                
+                <span class="ot">map&#39; ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]
+                map&#39; f xs <span class="fu">=</span> foldr (\x acc <span class="ot">-&gt;</span> f x <span class="fu">:</span> acc) [] xs</code></pre></div>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">($) ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b
+                f <span class="fu">$</span> x <span class="fu">=</span> f x</code></pre></div>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">(.) ::</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c
+                f <span class="fu">.</span> g <span class="fu">=</span> \x <span class="ot">-&gt;</span> f (g x)</code></pre></div>
+                <h2 id="modules">Modules</h2>
+                <pre class="shell"><code>Geometry/
+                    |--Sphere.hs
+                    |--Cuboid.hs
+                    |--Cube.hs</code></pre>
+                <p><code>Sphere.hs</code></p>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Geometry.Sphere</span>
+                ( volume
+                , area
+                ) <span class="kw">where</span>
+                
+                <span class="ot">volume ::</span> <span class="dt">Float</span> <span class="ot">-&gt;</span> <span class="dt">Float</span>
+                volume radius <span class="fu">=</span> (<span class="fl">4.0</span> <span class="fu">/</span> <span class="fl">3.0</span>) <span class="fu">*</span> pi <span class="fu">*</span> (radius <span class="fu">^</span> <span class="dv">3</span>)
+                
+                <span class="ot">area ::</span> <span class="dt">Float</span> <span class="ot">-&gt;</span> <span class="dt">Float</span>
+                area radius <span class="fu">=</span> <span class="dv">4</span> <span class="fu">*</span> pi <span class="fu">*</span> (radius <span class="fu">^</span> <span class="dv">2</span>)</code></pre></div>
+                <h2 id="define-our-type">Define our type</h2>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Car</span> <span class="fu">=</span> <span class="dt">Car</span> {<span class="ot"> company ::</span> <span class="dt">String</span>
+                               ,<span class="ot"> model ::</span> <span class="dt">String</span>
+                               ,<span class="ot"> year ::</span> <span class="dt">Int</span>
+                               } <span class="kw">deriving</span> (<span class="dt">Show</span>)
+                
+                ghci<span class="fu">&gt;</span> <span class="dt">Car</span> {company<span class="fu">=</span><span class="st">&quot;Ford&quot;</span>, model<span class="fu">=</span><span class="st">&quot;Mustang&quot;</span>, year<span class="fu">=</span><span class="dv">1967</span>}
+                <span class="dt">Car</span> {company <span class="fu">=</span> <span class="st">&quot;Ford&quot;</span>, model <span class="fu">=</span> <span class="st">&quot;Mustang&quot;</span>, year <span class="fu">=</span> <span class="dv">1967</span>}</code></pre></div>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">String</span> <span class="fu">=</span> [<span class="dt">Char</span>]</code></pre></div>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">newtype</span> <span class="dt">CharList</span> <span class="fu">=</span> <span class="dt">CharList</span> {<span class="ot"> getCharList ::</span> [<span class="dt">Char</span>] }
+                                            <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Show</span>)</code></pre></div>
+                <h2 id="闭包">闭包</h2>
+                <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Monoid</span> m <span class="kw">where</span>
+                <span class="ot">    mempty ::</span> m
+                <span class="ot">    mappend ::</span> m <span class="ot">-&gt;</span> m <span class="ot">-&gt;</span> m
+                <span class="ot">    mconcat ::</span> [m] <span class="ot">-&gt;</span> m
+                    mconcat <span class="fu">=</span> foldr mappend mempty</code></pre></div>
+                <h2 id="monad">Monad</h2>
+                <ul>
+                <li><p>带 context 的类型</p></li>
+                <li><p>只要实现 <code>class Monad m</code>，就不必关心 context 细节了，只需考虑传递的变量</p></li>
+                <li><p>Monad 实现了 Haskell pure 部分与非 pure 部分的隔离</p></li>
+                </ul>
+            </div>
+                    </div>
+    </div>
+<script src="/home/bibaijin/share/template/pandoc/pure/ui.js"></script>
+</body>
+</html>
